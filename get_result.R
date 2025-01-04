@@ -2,37 +2,20 @@ options(warn=-1)
 library(optparse)
 library(AlphaSimR)
 library(nadiv)
-
-# 表型权重
-w_age <- 0.4
-w_bf <- 0.3
-w_tnb <- 0.3
+# 导入基础公共参数
+source('common.R')
 
 work_dir <- getwd()
 
 # 获取命令行参数
 option_parser <- OptionParser()
-# 目标基因数量
-option_parser <- add_option(option_parser,
-                            c("-g", "--gene"),
-                            dest="gene_num",
-                            type="integer",
-                            help="target gene num",
-                            default=1)
 # 情景编号
 option_parser <- add_option(option_parser,
-                            c("-s", "--scenario"),
-                            dest="scenario_num",
-                            type="integer",
-                            help="scenario num",
-                            default=1)
-# 总代数
-option_parser <- add_option(option_parser,
-                            c("-n", "--generation"),
-                            dest="generation",
-                            type="integer",
-                            help="generation",
-                            default=16)
+                            c("-s", "--strategy"),
+                            dest="strategy_name",
+                            type="character",
+                            help="strategy name",
+                            default="baseline")
 
 # 重复次数
 option_parser <- add_option(option_parser,
@@ -48,17 +31,15 @@ option_parser <- add_option(option_parser,
                             dest="output_name",
                             type="character",
                             help="output dir",
-                            default='maorh')
+                            default='default_output')
 # 解析命令行参数
 parsed_args <- parse_args(option_parser)
-targetGeneNum <- parsed_args$gene_num
-scenario_num <- parsed_args$scenario_num
+strategy_name <- parsed_args$strategy_name
 repeat_num <- parsed_args$repeat_num
-generation <- parsed_args$generation
 output_name <- parsed_args$output_name
 
-output_dir <- file.path(work_dir, 'output', paste0('G', targetGeneNum), output_name)
-tmp_dir <- file.path(work_dir, 'tmp', paste0('G', targetGeneNum), output_name)
+output_dir <- file.path(work_dir, 'output', output_name)
+tmp_dir <- file.path(work_dir, 'tmp', output_name)
 init_data_file <- file.path(tmp_dir, 'init_data.RData')
 load(file=init_data_file)
 
@@ -71,26 +52,27 @@ print(target_gene_pos)
 
 # 获得全基因组信息
 geno_map <- data.frame(getGenMap(founderPop, sex='A'))
-geno_map_file <- paste0('geno_map_scenario_', scenario_num, '.txt')
+geno_map_file <- paste0('geno_map_', strategy_name, '.txt')
 write.table(geno_map, file.path(geno_dir, geno_map_file), quote=F, row.names=F, col.names=T)
 # 获得 snp map
 snp_map <- data.frame(getSnpMap(snpChip = 1, sex='A', simParam = SP))
-snp_map_file <- paste0('snp_map_scenario_', scenario_num, '.txt')
+snp_map_file <- paste0('snp_map_', strategy_name, '.txt')
 write.table(snp_map, file.path(geno_dir, snp_map_file), quote=F, row.names=F, col.names=T)
 # 获得 qtl map
 snp_map <- data.frame(getQtlMap(trait = 1, sex='A', simParam = SP))
-snp_map_file <- paste0('qtl_map_scenario_', scenario_num, '.txt')
+snp_map_file <- paste0('qtl_map_', strategy_name, '.txt')
 write.table(snp_map, file.path(geno_dir, snp_map_file), quote=F, row.names=F, col.names=T)
 
 
 for (repeat_id in 1:repeat_num){
-  tmp_result_file <- paste0('result_Mao_', scenario_num, '_repeat_', repeat_id, '.RData')
+  tmp_result_file <- paste0('result_', strategy_name, '_repeat_', repeat_id, '.RData')
   tmp_result_file <- file.path(tmp_dir, tmp_result_file)
-  print(paste0('reading result of scenario ', scenario_num, ' repeat ', repeat_id, '...'))
+  print(tmp_result_file)
+  print(paste0('reading result of strategy [', strategy_name, '] repeat ', repeat_id, '...'))
   load(tmp_result_file)
   result <- data.frame(matrix(ncol = 17, nrow = 0))
-  for (k in 1:generation){
-    print(paste0('Generation ', k))
+  for (k in 1:maxGeneration){
+    print(paste0('generation ', k))
     if (repeat_id > 1 && k < 6){
       next
     }
@@ -135,13 +117,6 @@ for (repeat_id in 1:repeat_num){
 
     mean_rst <- mean(data$data_pop$rst)
     var_rst <- var(data$data_pop$rst)
-    # cor_rst <- cor(data$data_pop$rst)
-    #
-    # # 标准化 rst
-    # for (i in 1:n_rows) {
-    #   data$data_pop$rst[i] <- 100 + 25 * ((data$data_pop$rst[i] - mean_rst) / cor_rst)
-    # }
-
 
     # 计算每个性状 pheno 的均值和方差
     mean_pheno_CZS <- mean(data$pheno$CZS)
@@ -173,7 +148,7 @@ for (repeat_id in 1:repeat_num){
     )
     MAF$MAF <- (2 * n_rows - MAF$MAF) / (2 * n_rows)
     MAF$MAF <- ifelse(MAF$MAF > 0.5, 1 - MAF$MAF, MAF$MAF)
-    maf_file <- paste0('maf_scenario_', scenario_num, '_repeat_', repeat_id, '_generation_', k, '.maf')
+    maf_file <- paste0('maf_strategy_', strategy_name, '_repeat_', repeat_id, '_generation_', k, '.maf')
     write.table(MAF, file.path(geno_dir, maf_file), quote=F, row.names=F, col.names=T)
     rm(snp_geno)
 
@@ -187,7 +162,6 @@ for (repeat_id in 1:repeat_num){
                         "var_gv_JZBBH", "mean_rst",
                         "mean_pheno_CZS", "var_pheno_CZS", "mean_pheno_JZRL", "var_pheno_JZRL",
                         "mean_pheno_JZBBH", "var_pheno_JZBBH", "avg_MAF", "avg_inb", "target_gene_str")
-  result_file <- paste0('result_scenario_', scenario_num, '_repeat_', repeat_id, '.csv')
+  result_file <- paste0('result_strategy_', strategy_name, '_repeat_', repeat_id, '.csv')
   write.table(result, file=file.path(output_dir, result_file), sep=',', quote=F, row.names=F, col.names=T)
-  # print(head(result))
 }

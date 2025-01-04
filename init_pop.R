@@ -36,4 +36,5 @@ data_0$pedi$family <- data_0$pedi$id
 data_0$pedi$mother <- data_0$pedi$id
 data_0$pedi$father <- data_0$pedi$id
 # 保存初始环境
-save(founderPop, SP, pop0, data_0, qtl_map, target_gene_chr, target_gene_site, target_gene_pos, file=init_data_file)
+save(founderPop, SP, pop0, data_0, qtl_map, targetGeneNum,
+     target_gene_chr, target_gene_site, target_gene_pos, maxGeneration, file=init_data_file)

@@ -65,3 +65,6 @@ po/*~
 *.gene1
 *.sites_in_files1
 *.variant_function
+
+# data_path
+

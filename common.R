@@ -1,11 +1,3 @@
-# 关闭 warning
-options(warn=-1)
-
-# 加载各种包
-library(optparse)
-library(AlphaSimR)
-library(nadiv)
-
 # 共用的各种参数
 # 表型参数矩阵输入
 corA <- matrix(c(1,0,0,0,1,-0.3,0,-0.3,1),nrow=3, ncol=3)

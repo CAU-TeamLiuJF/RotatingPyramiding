@@ -1,49 +1,34 @@
 # MultiSimR
 
-### G1 一个目标基因的情况
-全程需维持 10 个家系，每代均使用 30 头公猪
-
-选种仅一个方案：先目标基因数量排序，后 rst 排序
-
-选配有两个方案：同质选配；近交系数最小选配。两种选配都保证公母不属于同一窝。
-
-1. 第 6 代选择 3 个家系的各 3 头公猪导入目标基因，同质选配
-2. 第 6 代选择 3 个家系的各 3 头公猪导入目标基因，近交最小选配
-3. 第 6 代选择 9 个家系的各 1 头公猪导入目标基因，同质选配
-4. 第 6 代选择 9 个家系的各 1 头公猪导入目标基因，近交最小选配
-5. 前 3 代每代选择 1 个家系的各 3 头公猪导入目标基因，同质选配
-6. 前 3 代每代选择 1 个家系的各 3 头公猪导入目标基因，近交最小选配
-7. 前 3 代每代选择 3 个家系的各 1 头公猪导入目标基因，同质选配 
-8. 前 3 代每代选择 3 个家系的各 1 头公猪导入目标基因，近交最小选配
-9. 对照组，无目标基因，同质选配
-10. 对照组，无目标基因，近交最小选配
-
 ----
 
-### G2 两个目标基因的情况
-全程需维持 10 个家系，每代均使用 30 头公猪
+### Simulate a strategy
 
-选种仅一个方案：先目标基因数量排序，后 rst 排序
+```shell
+Rscript run.R -p $param_file -r $repeat -s $strategy_name -o $output
+```
 
-选配有两个方案：同质选配；近交系数最小选配。两种选配都保证公母不属于同一窝。
+`$param_file` is the param file name in directory `./params`, default value is `example.txt`.
 
-第 6 代选择 3 个家系的各 3 头公猪导入目标基因 A，选择另 3 个家系的各 3 头公猪导入目标基因 B，然后杂交得到 Aa 及 Bb
+`$repeat` is the repeat times of simulation, default value is `20`.
 
-1. 第 7 代将 Aa 的公猪优先与 Bb 的母猪杂交，Bb 的公猪优先与 Aa 的母猪杂交，得到 AaBb，后续进行同质选配
-2. 第 7 代将 Aa 的公猪优先与 Bb 的母猪杂交，Bb 的公猪优先与 Aa 的母猪杂交，得到 AaBb，后续进行近交系数最小选配
-3. 第 7 代先家系内部杂交得到 AA 和 BB，然后得到 A_B_，后续进行同质选配
-4. 第 7 代先家系内部杂交得到 AA 和 BB，然后得到 A_B_，后续进行近交系数最小选配
+`$strategy_name` is the strategy R script name in directory `./strategy` without `.R`, default value is `baseline`.
 
-----
+`$output` is the tmp data directory in directory `./tmp`, default value is `default_output`.
 
-### G5 五个基因的情况
+### Get results of a strategy
 
-全程需维持 5 个家系，每个家系 6 头公猪
+```shell
+Rscript get_result.R -r $repeat -s $strategy_name -o $output
+```
 
-选种仅一个方案：先目标基因数量排序，后 rst 排序
+`$output` is the output result directory in directory `./output`, default value is `default_output`.
 
-选配仅一个方案：同质选配
+The directory `./tmp` and `./output` will be created automatically. So does `$output`.
 
-1. 瀑布式 每代选择一个家系的 2 头公猪导入一个新的目标基因，分五代导入五个基因到五个家系
-2. 非瀑布式
-3. 环形
+### Get target gene distribution results of a strategy
+
+```shell
+Rscript get_target_gene.R -r $repeat -s $strategy_name -o $output
+```
+
