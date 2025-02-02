@@ -57,7 +57,6 @@ po/*~
 *.fam
 *.xlsx
 *.docx
-*.txt
 *.vcf
 *.pkl
 *.raw
