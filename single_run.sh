@@ -1,7 +1,7 @@
 set -e
 
 strategy_name=$1
-repeat=5
+repeat=100
 output="20250202_100"
 
 module load /apps/modulefile/program/r/4.3.3
