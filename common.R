@@ -9,6 +9,6 @@ names <- matrix(c("CZS","JZRL", "JZBBH"), nrow=3, ncol=1)
 w_age <- 0.4
 w_bf <- 0.3
 w_tnb <- 0.3
-r_CZS <- 0.2
-r_JZRL <- 0.4
-r_JZBBH <- 0.5
+r_CZS <- 0.1
+r_JZRL <- 0.3
+r_JZBBH <- 0.4
