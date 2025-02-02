@@ -1,0 +1,11 @@
+nChr 18 染色体数量
+segSites 20000 每个染色体上的位点数量
+nQtlPerChr 100 每个染色体的Qtl数量
+nSnpPerChr 2000 每个染色体的Snp数量
+targetGeneNum 5 目标基因数量
+initPopNum 2000 初始群体数量
+familyNum 5 维持家系数量
+malePerFamily 10 每个家系公猪数量
+femalePerMale 10 每头公猪交配母猪
+nProgenyPerLitter 10 每窝产仔数
+maxGeneration 16 最大模拟代数
