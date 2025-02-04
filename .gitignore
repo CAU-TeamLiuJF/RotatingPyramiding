@@ -66,4 +66,5 @@ po/*~
 *.variant_function
 
 # data_path
-
+output/
+results/

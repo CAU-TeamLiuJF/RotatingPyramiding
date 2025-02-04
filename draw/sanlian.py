@@ -4,23 +4,29 @@ import numpy as np
 target_gene_num = 5
 # scenarios = [3]
 scenarios = [1, 2, 3, 4]
+scenarios_file_name = [
+    'Cascading',
+    'NonCascading',
+    'Rotating',
+    'Baseline'
+]
 scenarios_name = {
     1: 'Cascading',
     2: 'Noncascading',
     3: 'Rotating(mRMC)',
     4: 'Baseline'
 }
-repeat_num = 10
+repeat_num = 100
 generation = 15
 
-data_path = f'G{target_gene_num}/mao_edit_5m5f_first_100_0816'
+data_path = f'../output/20250202_100'
 
 data = {i: {j: {} for j in range(1, repeat_num + 1)} for i in scenarios}
 
 for s_idx in scenarios:
     for r_idx in range(1, repeat_num + 1):
 
-        with open(f'{data_path}/result_scenario_{s_idx}_repeat_{r_idx}.csv', encoding='utf-8') as f:
+        with open(f'{data_path}/result_strategy_{scenarios_file_name[s_idx - 1]}_repeat_{r_idx}.csv', encoding='utf-8') as f:
             lines = f.readlines()
 
             # 属性
@@ -76,13 +82,13 @@ for draw_title in draw_titles:
 
     # sanlian
     if plt_idx == 1:
-        plt.text(-1.8, 0.1816, 'a)', fontsize=20)
+        plt.text(-1.8, 0.183, 'a)', fontsize=20)
     if plt_idx == 2:
         plt.text(-1.8, 0.0095, 'b)', fontsize=20)
     if plt_idx == 3:
-        plt.text(-1.8, -1.03, 'c)', fontsize=20)
+        plt.text(-1.8, -1.45, 'c)', fontsize=20)
     x_list = [f'G{i}' for i in range(generation - 4)]
-    with open(f'results/{draw_title}.csv', 'w', encoding='utf-8') as f:
+    with open(f'../results/{draw_title}.csv', 'w', encoding='utf-8') as f:
         for s_idx in scenarios:
             y_list = []
             for g_idx in range(11):
@@ -109,7 +115,7 @@ for draw_title in draw_titles:
     # plt.xlabel(draw_title.replace('_', ' '), fontsize=15)
     plt.grid(True)
 plt.show()
-pic_path = f'../data/images/'
+pic_path = f'../images'
 fig.savefig(f'{pic_path}/sanlian.svg', bbox_inches='tight')
 fig.savefig(f'{pic_path}/sanlian.png', bbox_inches='tight')
 plt.clf()
