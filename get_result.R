@@ -70,15 +70,20 @@ for (repeat_id in 1:repeat_num){
   print(tmp_result_file)
   print(paste0('reading result of strategy [', strategy_name, '] repeat ', repeat_id, '...'))
   load(tmp_result_file)
-  result <- data.frame(matrix(ncol = 17, nrow = 0))
+  result <- data.frame(matrix(ncol = 18, nrow = 0))
   for (k in 1:maxGeneration){
     print(paste0('generation ', k))
     if (repeat_id > 1 && k < 6){
       next
     }
 
-    # inb
+    data <- data_list[[k]]
+    data_pop <- data$data_pop
+    n_rows <- nrow(data_pop)
+
+    # inb and relationship
     avg_inb <- 0
+    avg_rel <- 0
     if (k >= 6){
       print(paste0(format(Sys.time(), format = "%Y-%m-%d %H:%M:%S"), ' Calculating inb...'))
       pedi_total <- data_list[[k-3]]$pedi
@@ -90,14 +95,16 @@ for (repeat_id in 1:repeat_num){
       A <- as.matrix(makeA(pped))
       A_row <- nrow(A)
       inb_pop <- diag(A) - 1
+      upper_triangle <- upper.tri(A, diag = FALSE)
+      upper_values <- A[upper_triangle]
+      rel_pop <- mean(upper_values)
       # 只取当前代的部分
       avg_inb <- mean(inb_pop[(A_row - n_rows):A_row])
+      upper_cur_num <- ((n_rows * n_rows) - n_rows) / 2
+      avg_rel <- mean(rel_pop[(length(rel_pop) - upper_cur_num):length(rel_pop)])
     }
 
     # 目标基因含量
-    data <- data_list[[k]]
-    data_pop <- data$data_pop
-    n_rows <- nrow(data_pop)
     avg_target_percent <- (mean(data_pop$gene_sum) / (2 * targetGeneNum))
 
     # 计算每个性状 gv 的均值和方差
@@ -156,12 +163,12 @@ for (repeat_id in 1:repeat_num){
     result <- rbind(result, c(avg_target_percent, mean_gv_CZS, var_gv_CZS, mean_gv_JZRL, var_gv_JZRL, mean_gv_JZBBH,
                               var_gv_JZBBH, mean_rst,
                               mean_pheno_CZS, var_pheno_CZS, mean_pheno_JZRL, var_pheno_JZRL,
-                              mean_pheno_JZBBH, var_pheno_JZBBH, avg_MAF, avg_inb, target_gene_str))
+                              mean_pheno_JZBBH, var_pheno_JZBBH, avg_MAF, avg_inb, avg_rel, target_gene_str))
   }
   colnames(result) <- c("avg_target_percent", "mean_gv_CZS", "var_gv_CZS", "mean_gv_JZRL", "var_gv_JZRL", "mean_gv_JZBBH",
                         "var_gv_JZBBH", "mean_rst",
                         "mean_pheno_CZS", "var_pheno_CZS", "mean_pheno_JZRL", "var_pheno_JZRL",
-                        "mean_pheno_JZBBH", "var_pheno_JZBBH", "avg_MAF", "avg_inb", "target_gene_str")
+                        "mean_pheno_JZBBH", "var_pheno_JZBBH", "avg_MAF", "avg_inb", "avg_rel", "target_gene_str")
   result_file <- paste0('result_strategy_', strategy_name, '_repeat_', repeat_id, '.csv')
   write.table(result, file=file.path(output_dir, result_file), sep=',', quote=F, row.names=F, col.names=T)
 }
