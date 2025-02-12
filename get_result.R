@@ -97,11 +97,10 @@ for (repeat_id in 1:repeat_num){
       inb_pop <- diag(A) - 1
       upper_triangle <- upper.tri(A, diag = FALSE)
       upper_values <- A[upper_triangle]
-      rel_pop <- mean(upper_values)
       # 只取当前代的部分
       avg_inb <- mean(inb_pop[(A_row - n_rows):A_row])
       upper_cur_num <- ((n_rows * n_rows) - n_rows) / 2
-      avg_rel <- mean(rel_pop[(length(rel_pop) - upper_cur_num):length(rel_pop)])
+      avg_rel <- mean(upper_values[(length(upper_values) - upper_cur_num):length(upper_values)])
     }
 
     # 目标基因含量
