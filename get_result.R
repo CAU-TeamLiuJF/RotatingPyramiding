@@ -82,7 +82,7 @@ for (repeat_id in 1:repeat_num){
     if (k >= 6){
       print(paste0(format(Sys.time(), format = "%Y-%m-%d %H:%M:%S"), ' Calculating inb...'))
       pedi_total <- data_list[[k-2]]$pedi
-      for (l in (k-1):k){
+      for (l in (k-2):k){
         pedi_total <- rbind(pedi_total, data_list[[l]]$pedi)
       }
       pedi_total <- pedi_total[, c(1, 2, 3)]
