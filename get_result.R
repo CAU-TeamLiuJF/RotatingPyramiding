@@ -81,7 +81,7 @@ for (repeat_id in 1:repeat_num){
     avg_inb <- 0
     if (k >= 6){
       print(paste0(format(Sys.time(), format = "%Y-%m-%d %H:%M:%S"), ' Calculating inb...'))
-      pedi_total <- data_list[[k-2]]$pedi
+      pedi_total <- data_list[[k-3]]$pedi
       for (l in (k-2):k){
         pedi_total <- rbind(pedi_total, data_list[[l]]$pedi)
       }
