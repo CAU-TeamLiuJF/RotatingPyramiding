@@ -7,7 +7,7 @@ strategies=("Baseline" "Cascading" "NonCascading" "Rotating")
 strategy_name=$1
 for strategy_name in "${strategies[@]}"
 do
-Rscript run.R -r ${repeat} -s ${strategy_name} -o ${output}
+#Rscript run.R -r ${repeat} -s ${strategy_name} -o ${output}
 Rscript get_result.R -r ${repeat} -s ${strategy_name} -o ${output}
-Rscript get_target_gene.R -r ${repeat} -s ${strategy_name} -o ${output}
+#Rscript get_target_gene.R -r ${repeat} -s ${strategy_name} -o ${output}
 done
