@@ -52,7 +52,7 @@ for s_idx in scenarios:
 
 draw_titles = [
    # 'avg_target_percent',
-    'avg_MAF', 'avg_inb', 'mean_rst',
+    'avg_MAF', 'avg_inb', 'mean_rst', 'avg_rel'
    # 'mean_gv_JZRL', 'mean_gv_JZBBH', 'mean_gv_CZS',
    # 'var_gv_CZS', 'var_gv_JZRL', 'var_gv_JZBBH',
    # 'mean_pheno_CZS', 'mean_pheno_JZRL', 'mean_pheno_JZBBH',
@@ -73,20 +73,17 @@ for draw_title in draw_titles:
     plt.rcParams['font.sans-serif'] = ['Times New Roman']
     plt.rcParams['xtick.direction'] = 'in'  # 将x周的刻度线方向设置向内
     plt.rcParams['ytick.direction'] = 'in'  # 将y轴的刻度方向设置向内
-    plt.subplot(2, 3, plt_idx)
-    # liulian
-    # if plt_idx == 1:
-    #     plt.text(-1.8, 158, 'a)', fontsize=20)
-    # if plt_idx == 4:
-    #     plt.text(-1.8, 3.21, 'b)', fontsize=20)
+    plt.subplot(2, 2, plt_idx)
 
     # sanlian
     if plt_idx == 1:
         plt.text(-1.8, 0.183, 'a)', fontsize=20)
     if plt_idx == 2:
-        plt.text(-1.8, 0.0095, 'b)', fontsize=20)
+        plt.text(-1.8, 0.021, 'b)', fontsize=20)
     if plt_idx == 3:
-        plt.text(-1.8, -1.45, 'c)', fontsize=20)
+        plt.text(-1.8, -1.38, 'c)', fontsize=20)
+    if plt_idx == 4:
+        plt.text(-1.8, 0.028, 'd)', fontsize=20)
     x_list = [f'G{i}' for i in range(generation - 4)]
     with open(f'../results/{draw_title}.csv', 'w', encoding='utf-8') as f:
         for s_idx in scenarios:
@@ -116,8 +113,8 @@ for draw_title in draw_titles:
     plt.grid(True)
 plt.show()
 pic_path = f'../images'
-fig.savefig(f'{pic_path}/sanlian.svg', bbox_inches='tight')
-fig.savefig(f'{pic_path}/sanlian.png', bbox_inches='tight')
+fig.savefig(f'{pic_path}/silian.svg', bbox_inches='tight')
+fig.savefig(f'{pic_path}/silian.png', bbox_inches='tight')
 plt.clf()
 
 # target_gene_percent >= 100% 的世代数
