@@ -74,19 +74,11 @@ for draw_title in draw_titles:
     plt.rcParams['xtick.direction'] = 'in'  # 将x周的刻度线方向设置向内
     plt.rcParams['ytick.direction'] = 'in'  # 将y轴的刻度方向设置向内
     plt.subplot(2, 3, plt_idx)
-    # liulian
     if plt_idx == 1:
         plt.text(-1.8, 162, 'a)', fontsize=20)
     if plt_idx == 4:
         plt.text(-1.8, 79, 'b)', fontsize=20)
 
-    # sanlian
-    # if plt_idx == 1:
-    #     plt.text(-2.3, 0.1813, 'a)', fontsize=20)
-    # if plt_idx == 2:
-    #     plt.text(-2.3, 0, 'b)', fontsize=20)
-    # if plt_idx == 3:
-    #     plt.text(-2.3, -1.02, 'c)', fontsize=20)
     x_list = [f'G{i}' for i in range(generation - 4)]
     with open(f'../results/{draw_title}.csv', 'w', encoding='utf-8') as f:
         for s_idx in scenarios:
