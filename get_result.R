@@ -143,7 +143,6 @@ for (repeat_id in 1:repeat_num){
     }
 
     # 获取 snp 信息计算 MAF
-
     print(paste0(format(Sys.time(), format = "%Y-%m-%d %H:%M:%S"), ' Calculating maf...'))
     snp_geno <- data.frame(pullSnpGeno(data$pop, simParam = SP))
 

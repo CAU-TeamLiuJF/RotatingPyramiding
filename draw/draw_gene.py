@@ -3,17 +3,21 @@ import numpy as np
 
 target_gene_num = 5
 scenarios = [1, 2, 3]
+scenarios_file_name = [
+    'Cascading',
+    'NonCascading',
+    'Rotating'
+]
 scenarios_name = {
     1: 'Cascading',
     2: 'Noncascading',
-    3: 'Looping',
-    4: 'Baseline'
+    3: 'Rotating(mRMC)'
 }
 repeat_num = 10
 generation = 16
 family_num = 5
 
-data_path = f'G{target_gene_num}/mao_edit_5m5f_first_100_0816/gene_dis'
+data_path = f'../output/20250202_100/gene_dis'
 
 gene_dict = {
     1: 'One gene',
@@ -48,7 +52,7 @@ for s_idx in scenarios:
 
     for r_idx in range(1, repeat_num + 1):
 
-        with open(data_path + f'/target_gene_dis_scenario_{s_idx}_repeat_{r_idx}.csv', encoding='utf-8') as f:
+        with open(data_path + f'/target_gene_dis_strategy_{scenarios_file_name[s_idx - 1]}_repeat_{r_idx}.csv', encoding='utf-8') as f:
 
             lines = f.readlines()[1:]
 
@@ -106,7 +110,7 @@ for s_idx in scenarios:
     plt_title = f'target_gene_distribution_S{s_idx}'
     # plt.title(plt_title)
 plt.show()
-pic_path = f'images/gene_h'
+pic_path = f'../images/gene_h'
 fig.savefig(f'{pic_path}.svg', bbox_inches='tight')
 fig.savefig(f'{pic_path}.png', bbox_inches='tight')
 plt.clf()
