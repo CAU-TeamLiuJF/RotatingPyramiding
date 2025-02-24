@@ -52,7 +52,7 @@ for s_idx in scenarios:
 
 draw_titles = [
    # 'avg_target_percent',
-    'avg_MAF', 'avg_inb', 'mean_rst', 'avg_rel'
+    'avg_inb', 'avg_rel', 'avg_MAF', 'mean_rst'
    # 'mean_gv_JZRL', 'mean_gv_JZBBH', 'mean_gv_CZS',
    # 'var_gv_CZS', 'var_gv_JZRL', 'var_gv_JZBBH',
    # 'mean_pheno_CZS', 'mean_pheno_JZRL', 'mean_pheno_JZBBH',
@@ -77,13 +77,13 @@ for draw_title in draw_titles:
 
     # sanlian
     if plt_idx == 1:
-        plt.text(-1.8, 0.183, 'a)', fontsize=20)
-    if plt_idx == 2:
         plt.text(-1.8, 0.021, 'b)', fontsize=20)
-    if plt_idx == 3:
-        plt.text(-1.8, -1.38, 'c)', fontsize=20)
-    if plt_idx == 4:
+    if plt_idx == 2:
         plt.text(-1.8, 0.028, 'd)', fontsize=20)
+    if plt_idx == 3:
+        plt.text(-1.8, 0.183, 'a)', fontsize=20)
+    if plt_idx == 4:
+        plt.text(-1.8, -1.38, 'c)', fontsize=20)
     x_list = [f'G{i}' for i in range(generation - 4)]
     with open(f'../results/{draw_title}.csv', 'w', encoding='utf-8') as f:
         for s_idx in scenarios:
